@@ -1,0 +1,99 @@
+import * as React from 'react';
+import * as ReactDom from 'react-dom';
+import { Version } from '@microsoft/sp-core-library';
+import { IPropertyPaneConfiguration, PropertyPaneDropdown, IPropertyPaneDropdownOption } from '@microsoft/sp-property-pane';
+import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
+import * as strings from 'ViewListGenericWebPartStrings';
+import ViewListGeneric from './components/ViewListGeneric';
+import { IViewListGenericProps } from './components/IViewListGenericProps';
+import { sp, SPRest } from "@pnp/sp/presets/all";
+
+export interface IViewListGenericWebPartProps {
+  listName: string;
+}
+
+var spObj: SPRest = null;
+
+export default class ViewListGenericWebPart extends BaseClientSideWebPart<IViewListGenericWebPartProps> {
+  private lists: IPropertyPaneDropdownOption[];
+  private listsDropdownDisabled: boolean = true;
+  constructor() {
+    super();
+    sp.setup({
+      spfxContext: this.context
+    });
+    spObj = sp;
+
+  }
+
+  public render(): void {
+    const element: React.ReactElement<IViewListGenericProps> = React.createElement(
+      ViewListGeneric,
+      {
+        spcontext: this.context,
+        listName: this.properties.listName
+      }
+    );
+
+    ReactDom.render(element, this.domElement);
+  }
+
+  protected onDispose(): void {
+    ReactDom.unmountComponentAtNode(this.domElement);
+  }
+
+  // @ts-ignore
+  protected get dataVersion(): Version {
+    return Version.parse('1.0');
+  }
+
+  protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
+    return {
+      pages: [
+        {
+          header: {
+            description: strings.PropertyPaneDescription
+          },
+          groups: [
+            {
+              groupName: strings.BasicGroupName,
+              groupFields: [
+                PropertyPaneDropdown('listName', {
+                  label: strings.ListNameFieldLabel,
+                  options: this.lists,
+                  disabled: this.listsDropdownDisabled,
+                })
+              ]
+            }
+          ]
+        }
+      ]
+    };
+  }
+
+  protected onPropertyPaneConfigurationStart(): void {
+    this.loadLists().then((lists: IPropertyPaneDropdownOption[]) => {
+      this.lists = lists;
+      this.context.propertyPane.refresh();
+    })
+  }
+
+  private async loadLists(): Promise<IPropertyPaneDropdownOption[]> {
+    this.listsDropdownDisabled = true;
+
+    const dropdopwnObjects: IPropertyPaneDropdownOption[] = [];
+    var key: number = 0;
+    await spObj.web.lists.get().then((lists) => {
+      lists.forEach(list => {
+        dropdopwnObjects.push({
+          key: list.Title,
+          text: list.Title
+        })
+        key++;
+      })
+    })
+
+    this.listsDropdownDisabled = false;
+    return dropdopwnObjects;
+  }
+}
