@@ -1,12 +1,9 @@
 import * as React from 'react';
 import styles from './ViewListGeneric.module.scss';
 import { IViewListGenericProps } from './IViewListGenericProps';
-import { escape } from '@microsoft/sp-lodash-subset';
-import { IFieldInfo, IList, sp, SPRest } from "@pnp/sp/presets/all";
-import { DetailsList, buildColumns, IColumn } from 'office-ui-fabric-react/lib/DetailsList';
-import ViewListGenericServiceMock from '../services/ViewListGenericServiceMock';
-import ListService from '../services/ListService'
-import { Environment, EnvironmentType } from '@microsoft/sp-core-library';
+import { IFieldInfo, sp, SPRest } from "@pnp/sp/presets/all";
+import { DetailsList, IColumn } from 'office-ui-fabric-react/lib/DetailsList';
+import IListService from '../../../services/IListService';
 
 export interface IViewListGenericState {
   sortedItems: any[];
@@ -19,21 +16,19 @@ export interface IColumnsName {
   InternalName: string;
 }
 
-var spObj: SPRest = null;
-
 export default class ViewListGeneric extends React.Component<IViewListGenericProps, IViewListGenericState> {
+  private listService: IListService;
+
+
   constructor(props: IViewListGenericProps) {
     super(props);
 
-    sp.setup({
-      spfxContext: this.props.spcontext
-    });
-    spObj = sp;
+    this.listService = this.props.ListServiceInstace;
 
     this.state = {
       sortedItems: [],
       columns: [],
-      listName: Environment.type === EnvironmentType.Local ? 'List Mock' : this.props.listName
+      listName: this.props.listName
     };
   }
 
@@ -62,50 +57,26 @@ export default class ViewListGeneric extends React.Component<IViewListGenericPro
           ariaLabelForSelectionColumn="Toggle selection"
           ariaLabelForSelectAllCheckbox="Toggle selection for all items"
           checkButtonAriaLabel="select row"
-
         />
       </div>
     )
   }
 
   private async _renderListAsync() {
-    const viewList: IViewListGenericState = Environment.type === EnvironmentType.Local
-      ? await this._getMockListData() : await this._getDataFromSharepoint(this.props.listName);
+    try {
+      const fields: IFieldInfo[] = await this.listService.GetListFields(this.props.listName);
 
-    this.setState({
-      sortedItems: viewList.sortedItems,
-      columns: viewList.columns,
-    })
-  }
+      const items: any[] = await this.listService.GetListItems(this.props.listName, fields);
 
-  private async _getMockListData(): Promise<IViewListGenericState> {
-    const viewListGenericServiceMock = new ViewListGenericServiceMock();
+      const columns: IColumn[] = this._prepareColumns(fields);
 
-    const items = await viewListGenericServiceMock.GetListItems();
-    const columns: IColumn[] = await viewListGenericServiceMock.GetColumnsName().then((columnsName: IFieldInfo[]) => {
-      return this._prepareColumns(columnsName);
-    });
-
-    return {
-      sortedItems: items,
-      columns
-    } as IViewListGenericState;
-  }
-
-  private async _getDataFromSharepoint(listName: string): Promise<IViewListGenericState> {
-    const listService = new ListService();
-
-    const list: IList = await listService.getList(spObj, listName);
-
-    const fields: IFieldInfo[] = await listService.getColumnsName(list);
-
-    const items: any[] = await listService.getListItems(list, fields);
-
-    const columns: IColumn[] = this._prepareColumns(fields);
-    return {
-      sortedItems: items,
-      columns: columns
-    } as IViewListGenericState;
+      this.setState({
+        sortedItems: items,
+        columns: columns,
+      })
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   private _prepareColumns(columns: IFieldInfo[]): IColumn[] {
@@ -115,12 +86,10 @@ export default class ViewListGeneric extends React.Component<IViewListGenericPro
       columnsPrepared.push(
         {
           key: String(keyIndex),
-
           name: column.Title,
           fieldName: column.InternalName,
-
           className: `${styles.column}`,
-          ariaLabel: `Column operations for ${this.state.listName}, Press to sort on ${this.state.listName}`,
+          ariaLabel: `Column operations for ${this.props.listName}, Press to sort on ${this.props.listName}`,
           minWidth: 70,
           maxWidth: 90,
         }
@@ -171,7 +140,6 @@ export default class ViewListGeneric extends React.Component<IViewListGenericPro
   }
 
   private checkIfPersonPicker(fieldContent: any) {
-    return fieldContent && fieldContent['Title'] ? true : false
+    return fieldContent && fieldContent['Title'] ? true : false;
   }
-
 }

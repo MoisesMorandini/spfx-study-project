@@ -1,16 +1,20 @@
-import { IFieldInfo, IList, SPRest } from "@pnp/sp/presets/all";
+import { IFieldInfo } from "@pnp/sp/presets/all";
+import IListService from './IListService'
+import { sp } from '@pnp/sp'
 
-class ListService {
-    public async getList(sp: SPRest, listName: string): Promise<IList> {
-        return await sp.web.lists.getByTitle(listName);
-    }
-
-    public async getListItems(list: IList, fields: IFieldInfo[]): Promise<any[]> {
+class ListService implements IListService {
+    public async GetListItems(listName: string, fields: IFieldInfo[]): Promise<any[]> {
         const personPickerFields: string[] = this.getFieldsPersonPicker(fields);
 
         const fieldsNamePrepared: string[] = this.prepareFieldsName(fields);
 
-        return await list.items.select(...fieldsNamePrepared).expand(...personPickerFields).get();
+        return await await sp.web.lists.getByTitle(listName).items.select(...fieldsNamePrepared).expand(...personPickerFields).get();
+    }
+
+    public async GetListFields(listName: string): Promise<IFieldInfo[]> {
+        return await sp.web.lists.getByTitle(listName).fields.filter(
+            "ReadOnlyField eq false and Hidden eq false and FieldTypeKind ne 12 and FieldTypeKind ne 19 and InternalName ne '_ExtendedDescription'"
+        ).select("Title,InternalName,FieldTypeKind").get();
     }
 
     private getFieldsPersonPicker(fields: IFieldInfo[]): string[] {
@@ -31,11 +35,7 @@ class ListService {
         return preparedFieldsName;
     }
 
-    public async getColumnsName(list: IList): Promise<IFieldInfo[]> {
-        return await list.fields.filter(
-            "ReadOnlyField eq false and Hidden eq false and FieldTypeKind ne 12 and FieldTypeKind ne 19 and InternalName ne '_ExtendedDescription'"
-        ).select("Title,InternalName,FieldTypeKind").get();
-    }
+
 }
 
 export default ListService;

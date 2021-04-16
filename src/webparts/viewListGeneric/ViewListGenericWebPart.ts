@@ -1,12 +1,15 @@
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
-import { Version } from '@microsoft/sp-core-library';
+import { Environment, EnvironmentType, Version } from '@microsoft/sp-core-library';
 import { IPropertyPaneConfiguration, PropertyPaneDropdown, IPropertyPaneDropdownOption } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import * as strings from 'ViewListGenericWebPartStrings';
 import ViewListGeneric from './components/ViewListGeneric';
 import { IViewListGenericProps } from './components/IViewListGenericProps';
 import { sp, SPRest } from "@pnp/sp/presets/all";
+import ListService from '../../services/ListService';
+import ListServiceMock from '../../services/ListServiceMock';
+import IListService from '../../services/IListService';
 
 export interface IViewListGenericWebPartProps {
   listName: string;
@@ -17,13 +20,11 @@ var spObj: SPRest = null;
 export default class ViewListGenericWebPart extends BaseClientSideWebPart<IViewListGenericWebPartProps> {
   private lists: IPropertyPaneDropdownOption[];
   private listsDropdownDisabled: boolean = true;
+  private listServiceInstace: IListService;
+  private mockListName: string = 'List Mock'
+
   constructor() {
     super();
-    sp.setup({
-      spfxContext: this.context
-    });
-    spObj = sp;
-
   }
 
   public render(): void {
@@ -31,11 +32,22 @@ export default class ViewListGenericWebPart extends BaseClientSideWebPart<IViewL
       ViewListGeneric,
       {
         spcontext: this.context,
-        listName: this.properties.listName
+        listName: Environment.type === EnvironmentType.Local ? this.mockListName : this.properties.listName,
+        ListServiceInstace: this.listServiceInstace
       }
     );
 
     ReactDom.render(element, this.domElement);
+  }
+
+  protected async onInit() {
+    await super.onInit();
+    sp.setup({
+      spfxContext: this.context
+    });
+    spObj = sp;
+
+    this.listServiceInstace = Environment.type === EnvironmentType.Local ? new ListServiceMock() : new ListService();
   }
 
   protected onDispose(): void {
