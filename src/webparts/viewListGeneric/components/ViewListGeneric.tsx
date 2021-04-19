@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styles from './ViewListGeneric.module.scss';
 import { IViewListGenericProps } from './IViewListGenericProps';
-import { IFieldInfo, sp, SPRest } from "@pnp/sp/presets/all";
+import { IFieldInfo } from "@pnp/sp/presets/all";
 import { DetailsList, IColumn } from 'office-ui-fabric-react/lib/DetailsList';
 import IListService from '../../../services/IListService';
 

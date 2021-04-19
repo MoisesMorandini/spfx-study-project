@@ -1,4 +1,3 @@
-import { IColumnsName } from "../webparts/viewListGeneric/components/ViewListGeneric";
 import { IFieldInfo } from "@pnp/sp/presets/all";
 import IListService from "./IListService";
 

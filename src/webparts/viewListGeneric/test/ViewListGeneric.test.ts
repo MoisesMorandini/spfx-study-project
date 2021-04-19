@@ -1,14 +1,14 @@
 /// <reference types='jest' />
 
 import * as React from 'react';
-import { configure, mount, shallow, ReactWrapper, ShallowWrapper } from 'enzyme';
+import { configure, mount, ReactWrapper } from 'enzyme';
 import * as Adapter from 'enzyme-adapter-react-16';
 
 import { IViewListGenericProps } from '../components/IViewListGenericProps';
 import { IViewListGenericState, ViewListGeneric } from '../components/ViewListGeneric';
 import ListServiceMock from '../../../services/ListServiceMock';
 import { IFieldInfo } from '@pnp/sp/fields';
-import { PrimaryButton, DetailsList, IColumn } from 'office-ui-fabric-react';
+import { DetailsList } from 'office-ui-fabric-react';
 
 configure({ adapter: new Adapter() });
 
@@ -54,7 +54,7 @@ describe('testing ViewListGeneric component', () => {
         expect(listItemsLength).toBe(3);
     });
 
-    test('should call GetListFields and GetListItems when property is updated', async () => {
+    test('should call GetListFields and GetListItems when component property is updated', async () => {
         const spyGetListFields = jest.spyOn(listServiceMockInstance, 'GetListFields');
         const spyGetListItems = jest.spyOn(listServiceMockInstance, 'GetListItems');
 
@@ -69,7 +69,7 @@ describe('testing ViewListGeneric component', () => {
         expect(spyGetListItems).toHaveBeenCalledWith(listName, fields);
     });
 
-    test('should sorted ascending state Items, when click on column header ', () => {
+    test('should sorted ascending state Items, when click on column header', () => {
         const notSortedItemsMock =
             [
                 { Title: "Avengers", Category: "Superhero Movie" },
@@ -86,7 +86,9 @@ describe('testing ViewListGeneric component', () => {
             items: notSortedItemsMock
         })
 
-        const columnHeader = viewListGenericComponent.find({ role: "button" }).first();
+        const detailsList = viewListGenericComponent.find(DetailsList).first();
+        const columnHeader = detailsList.find({ role: "button" }).first();
+
         columnHeader.simulate('click');
 
         expect(viewListGenericComponent.state('items')).toEqual(sortedItemsMock);
@@ -115,8 +117,8 @@ describe('testing ViewListGeneric component', () => {
                 return column;
             })
         });
-
-        const columnHeader = viewListGenericComponent.find({ role: "button" }).first();
+        const detailsList = viewListGenericComponent.find(DetailsList).first();
+        const columnHeader = detailsList.find({ role: "button" }).first();
         columnHeader.simulate('click');
 
         expect(viewListGenericComponent.state('items')).toEqual(sortedItemsMockDesc);
