@@ -4,7 +4,7 @@ import { Environment, EnvironmentType, Version } from '@microsoft/sp-core-librar
 import { IPropertyPaneConfiguration, PropertyPaneDropdown, IPropertyPaneDropdownOption } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import * as strings from 'ViewListGenericWebPartStrings';
-import ViewListGeneric from './components/ViewListGeneric';
+import { ViewListGeneric } from './components/ViewListGeneric';
 import { IViewListGenericProps } from './components/IViewListGenericProps';
 import { sp, SPRest } from "@pnp/sp/presets/all";
 import ListService from '../../services/ListService';
@@ -21,7 +21,7 @@ export default class ViewListGenericWebPart extends BaseClientSideWebPart<IViewL
   private lists: IPropertyPaneDropdownOption[];
   private listsDropdownDisabled: boolean = true;
   private listServiceInstace: IListService;
-  private mockListName: string = 'List Mock'
+  private mockListName: string = 'List Mock';
 
   constructor() {
     super();
@@ -31,9 +31,8 @@ export default class ViewListGenericWebPart extends BaseClientSideWebPart<IViewL
     const element: React.ReactElement<IViewListGenericProps> = React.createElement(
       ViewListGeneric,
       {
-        spcontext: this.context,
         listName: Environment.type === EnvironmentType.Local ? this.mockListName : this.properties.listName,
-        ListServiceInstace: this.listServiceInstace
+        listServiceInstace: this.listServiceInstace
       }
     );
 

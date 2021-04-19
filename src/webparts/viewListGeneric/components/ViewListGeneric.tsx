@@ -6,7 +6,7 @@ import { DetailsList, IColumn } from 'office-ui-fabric-react/lib/DetailsList';
 import IListService from '../../../services/IListService';
 
 export interface IViewListGenericState {
-  sortedItems: any[];
+  items: any[];
   columns: IColumn[];
   listName: string;
 }
@@ -16,17 +16,17 @@ export interface IColumnsName {
   InternalName: string;
 }
 
-export default class ViewListGeneric extends React.Component<IViewListGenericProps, IViewListGenericState> {
+export class ViewListGeneric extends React.Component<IViewListGenericProps, IViewListGenericState> {
   private listService: IListService;
 
 
   constructor(props: IViewListGenericProps) {
     super(props);
 
-    this.listService = this.props.ListServiceInstace;
+    this.listService = this.props.listServiceInstace;
 
     this.state = {
-      sortedItems: [],
+      items: [],
       columns: [],
       listName: this.props.listName
     };
@@ -43,13 +43,14 @@ export default class ViewListGeneric extends React.Component<IViewListGenericPro
   }
 
   public render(): React.ReactElement<IViewListGenericProps> {
-    const { sortedItems, columns } = this.state;
+    const { items, columns } = this.state;
 
     return (
       <div className={styles.viewListGeneric}>
         <h2 className={styles.title} >{this.props.listName}</h2>
         <DetailsList
-          items={sortedItems}
+          onShouldVirtualize={() => false}
+          items={items}
           columns={columns}
           className={styles.row}
           onRenderItemColumn={this._renderItemColumn}
@@ -63,20 +64,16 @@ export default class ViewListGeneric extends React.Component<IViewListGenericPro
   }
 
   private async _renderListAsync() {
-    try {
-      const fields: IFieldInfo[] = await this.listService.GetListFields(this.props.listName);
+    const fields: IFieldInfo[] = await this.listService.GetListFields(this.props.listName);
 
-      const items: any[] = await this.listService.GetListItems(this.props.listName, fields);
+    const items: any[] = await this.listService.GetListItems(this.props.listName, fields);
 
-      const columns: IColumn[] = this._prepareColumns(fields);
+    const columns: IColumn[] = this._prepareColumns(fields);
 
-      this.setState({
-        sortedItems: items,
-        columns: columns,
-      })
-    } catch (error) {
-      console.log(error);
-    }
+    this.setState({
+      items: items,
+      columns: columns,
+    })
   }
 
   private _prepareColumns(columns: IFieldInfo[]): IColumn[] {
@@ -100,9 +97,18 @@ export default class ViewListGeneric extends React.Component<IViewListGenericPro
     return columnsPrepared;
   }
 
-  private _onColumnClick = (event: React.MouseEvent<HTMLElement>, column: IColumn): void => {
+  private _renderItemColumn = (item: any[], index: number, column: IColumn) => {
+    const fieldContent = item[column.fieldName as keyof any[]];
+    return this._checkIfPersonPicker(fieldContent) ? <span>{fieldContent.Title}</span> : <span>{fieldContent}</span>;
+  }
+
+  private _checkIfPersonPicker(fieldContent: any) {
+    return fieldContent && fieldContent['Title'] ? true : false;
+  }
+
+  public _onColumnClick = (event: React.MouseEvent<HTMLElement>, column: IColumn): void => {
     const { columns } = this.state;
-    let { sortedItems } = this.state;
+    let { items } = this.state;
 
     let isSortedDescending = column.isSortedDescending;
 
@@ -112,11 +118,13 @@ export default class ViewListGeneric extends React.Component<IViewListGenericPro
     }
 
     // Sort the items.
-    sortedItems = this._copyAndSort(sortedItems, column.fieldName!, isSortedDescending);
+    items = this._copyAndSort(items, column.fieldName!, isSortedDescending);
+    console.log('--------------------------------------')
+    console.log(items);
 
     // Reset the items and columns to match the state.
     this.setState({
-      sortedItems: sortedItems,
+      items,
       columns: columns.map(col => {
         col.isSorted = col.key === column.key;
 
@@ -129,17 +137,8 @@ export default class ViewListGeneric extends React.Component<IViewListGenericPro
     });
   };
 
-  private _renderItemColumn = (item: any[], index: number, column: IColumn) => {
-    const fieldContent = item[column.fieldName as keyof any[]];
-    return this.checkIfPersonPicker(fieldContent) ? <span>{fieldContent.Title}</span> : <span>{fieldContent}</span>;
-  }
-
-  private _copyAndSort = <T,>(items: T[], columnKey: string, isSortedDescending?: boolean): T[] => {
+  public _copyAndSort = <T,>(items: T[], columnKey: string, isSortedDescending?: boolean): T[] => {
     const key = columnKey as keyof T;
     return items.slice(0).sort((a: T, b: T) => ((isSortedDescending ? a[key] < b[key] : a[key] > b[key]) ? 1 : -1));
-  }
-
-  private checkIfPersonPicker(fieldContent: any) {
-    return fieldContent && fieldContent['Title'] ? true : false;
   }
 }

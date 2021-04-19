@@ -2,29 +2,32 @@ import { IColumnsName } from "../webparts/viewListGeneric/components/ViewListGen
 import { IFieldInfo } from "@pnp/sp/presets/all";
 import IListService from "./IListService";
 
-export interface ISharepointList {
-    Title: string;
-    Category: string;
-}
 
 class ListServiceMock implements IListService {
 
-    private static _itemsList: ISharepointList[] = [
+    private static _listItems: any[] = [
         {
             Title: "Avengers",
-            Category: "Superhero Movie",
-        },
-        {
-            Title: "Justice League",
-            Category: "Superhero Movie"
+            Category: "Superhero Movies",
         },
         {
             Title: "The Boys",
-            Category: "Superhero Serie"
+            Category: "Superhero Series",
+            Director: {
+                Title: 'Eric Kripke'
+            }
+        },
+        {
+            Title: "Space Jam",
+            Category: "Comedy Movie",
+            Director: {
+                Title: 'Joe Pytka'
+            }
+
         }
     ];
 
-    private static _columnsName: IFieldInfo[] = [
+    private static _fields: IFieldInfo[] = [
         {
             DefaultFormula: null,
             DefaultValue: null,
@@ -90,18 +93,51 @@ class ListServiceMock implements IListService {
             TypeShortDescription: "Single line of text",
             ValidationFormula: null,
             ValidationMessage: null,
+        },
+        {
+            DefaultFormula: null,
+            DefaultValue: null,
+            Description: "",
+            Direction: "none",
+            EnforceUniqueValues: false,
+            EntityPropertyName: "Director",
+            FieldTypeKind: 20,
+            Filterable: true,
+            FromBaseType: true,
+            Group: "Custom Columns",
+            Hidden: false,
+            Id: "fa564e0f-0c70-4ab9-b863-0177e6ddd247",
+            IndexStatus: 0,
+            Indexed: false,
+            InternalName: "Director",
+            JSLink: "clienttemplates.js",
+            PinnedToFiltersPane: false,
+            ReadOnlyField: false,
+            Required: true,
+            Scope: "/sites/Mock/Lists/TestListMock",
+            Sealed: false,
+            ShowInFiltersPane: 0,
+            Sortable: true,
+            StaticName: "Director",
+            Title: "Director",
+            SchemaXml: null,
+            TypeAsString: "Text",
+            TypeDisplayName: "Single line of text",
+            TypeShortDescription: "Single line of text",
+            ValidationFormula: null,
+            ValidationMessage: null,
         }
     ]
 
-    public GetListItems(): Promise<ISharepointList[]> {
-        return new Promise<ISharepointList[]>((resolve) => {
-            resolve(ListServiceMock._itemsList)
+    public GetListItems(listName: string, fields: IFieldInfo[]): Promise<any[]> {
+        return new Promise<any[]>((resolve) => {
+            resolve(ListServiceMock._listItems)
         })
     }
 
-    public GetListFields(): Promise<any[]> {
-        return new Promise<IColumnsName[]>((resolve) => {
-            resolve(ListServiceMock._columnsName);
+    public GetListFields(listName: string): Promise<IFieldInfo[]> {
+        return new Promise<IFieldInfo[]>((resolve) => {
+            resolve(ListServiceMock._fields);
         })
     }
 }
