@@ -1,5 +1,4 @@
-import { WebPartContext } from "@microsoft/sp-webpart-base";
-import IListService from "../../../services/IListService";
+import IListService from "../../../services/list/IListService";
 
 export interface IViewListGenericProps {
   listName: string;

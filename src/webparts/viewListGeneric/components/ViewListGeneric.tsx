@@ -3,7 +3,7 @@ import styles from './ViewListGeneric.module.scss';
 import { IViewListGenericProps } from './IViewListGenericProps';
 import { IFieldInfo } from "@pnp/sp/presets/all";
 import { DetailsList, IColumn } from 'office-ui-fabric-react/lib/DetailsList';
-import IListService from '../../../services/IListService';
+import IListService from '../../../services/list/IListService';
 
 export interface IViewListGenericState {
   items: any[];

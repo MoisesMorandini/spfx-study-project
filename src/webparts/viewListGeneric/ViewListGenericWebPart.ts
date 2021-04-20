@@ -7,9 +7,9 @@ import * as strings from 'ViewListGenericWebPartStrings';
 import { ViewListGeneric } from './components/ViewListGeneric';
 import { IViewListGenericProps } from './components/IViewListGenericProps';
 import { sp, SPRest } from "@pnp/sp/presets/all";
-import ListService from '../../services/ListService';
-import ListServiceMock from '../../services/ListServiceMock';
-import IListService from '../../services/IListService';
+import ListService from '../../services/list/ListService';
+import ListServiceMock from '../../services/list/ListServiceMock';
+import IListService from '../../services/list/IListService';
 
 export interface IViewListGenericWebPartProps {
   listName: string;

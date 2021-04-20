@@ -6,7 +6,7 @@ import * as Adapter from 'enzyme-adapter-react-16';
 
 import { IViewListGenericProps } from '../components/IViewListGenericProps';
 import { IViewListGenericState, ViewListGeneric } from '../components/ViewListGeneric';
-import ListServiceMock from '../../../services/ListServiceMock';
+import ListServiceMock from '../../../services/list/ListServiceMock';
 import { IFieldInfo } from '@pnp/sp/fields';
 import { DetailsList } from 'office-ui-fabric-react';
 

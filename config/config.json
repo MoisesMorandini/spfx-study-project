@@ -9,10 +9,19 @@
           "manifest": "./src/webparts/viewListGeneric/ViewListGenericWebPart.manifest.json"
         }
       ]
+    },
+    "new-employee-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/newEmployee/NewEmployeeWebPart.js",
+          "manifest": "./src/webparts/newEmployee/NewEmployeeWebPart.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
   "localizedResources": {
-    "ViewListGenericWebPartStrings": "lib/webparts/viewListGeneric/loc/{locale}.js"
+    "ViewListGenericWebPartStrings": "lib/webparts/viewListGeneric/loc/{locale}.js",
+    "NewEmployeeWebPartStrings": "lib/webparts/newEmployee/loc/{locale}.js"
   }
 }

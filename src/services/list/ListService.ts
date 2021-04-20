@@ -34,8 +34,6 @@ class ListService implements IListService {
 
         return preparedFieldsName;
     }
-
-
 }
 
 export default ListService;
