@@ -22,6 +22,7 @@
   "externals": {},
   "localizedResources": {
     "ViewListGenericWebPartStrings": "lib/webparts/viewListGeneric/loc/{locale}.js",
-    "NewEmployeeWebPartStrings": "lib/webparts/newEmployee/loc/{locale}.js"
+    "NewEmployeeWebPartStrings": "lib/webparts/newEmployee/loc/{locale}.js",
+    "ControlStrings": "node_modules/@pnp/spfx-controls-react/lib/loc/{locale}.js"
   }
 }

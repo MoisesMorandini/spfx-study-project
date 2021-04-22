@@ -1,13 +1,12 @@
-import { IDropdownOption } from "office-ui-fabric-react";
-
 export interface IEmployee {
-    firstName: string;
-    lastName: string;
-    birthdayDate: Date;
-    admissionDate: Date;
-    unit: string | number;
-    division: string;
-    team: string | number;
+    Title: string;
+    LastName: string;
+    BirthdayDate: Date;
+    AdmissionDate: Date;
+    Unit?: string | number;
+    Division?: string;
+    Team?: string | number;
+    UserId?: string;
 }
 
 

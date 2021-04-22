@@ -1,19 +1,17 @@
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
 import { Environment, EnvironmentType, Version } from '@microsoft/sp-core-library';
-import {
-  IPropertyPaneConfiguration,
-  PropertyPaneTextField
-} from '@microsoft/sp-property-pane';
+import { IPropertyPaneConfiguration } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 
 import * as strings from 'NewEmployeeWebPartStrings';
 import NewEmployee from './components/NewEmployee';
 import { INewEmployeeProps } from './components/INewEmployeeProps';
 
-import { sp, SPRest } from "@pnp/sp/presets/all";
+import { sp } from "@pnp/sp/presets/all";
 import { IEmployeeService } from '../../services/employee/IEmployeeService';
 import EmployeeServiceMock from '../../services/employee/EmployeeServiceMock';
+import EmployeeService from '../../services/employee/EmployeeService';
 
 export interface INewEmployeeWebPartProps {
   // description: string;
@@ -26,7 +24,8 @@ export default class NewEmployeeWebPart extends BaseClientSideWebPart<INewEmploy
     const element: React.ReactElement<INewEmployeeProps> = React.createElement(
       NewEmployee,
       {
-        employeeService: this.employeeService
+        employeeService: this.employeeService,
+        context: this.context
       }
     );
 
@@ -40,7 +39,7 @@ export default class NewEmployeeWebPart extends BaseClientSideWebPart<INewEmploy
     });
 
     //change the condition for add EmployeeService(not mock)
-    this.employeeService = Environment.type === EnvironmentType.Local ? new EmployeeServiceMock() : new EmployeeServiceMock();
+    this.employeeService = Environment.type === EnvironmentType.Local ? new EmployeeServiceMock() : new EmployeeService();
   }
   protected onDispose(): void {
     ReactDom.unmountComponentAtNode(this.domElement);

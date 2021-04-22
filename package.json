@@ -21,6 +21,7 @@
     "@pnp/logging": "^2.4.0",
     "@pnp/odata": "^2.4.0",
     "@pnp/sp": "^2.4.0",
+    "@pnp/spfx-controls-react": "3.0.0",
     "office-ui-fabric-react": "6.214.0",
     "react": "16.8.5",
     "react-dom": "16.8.5"

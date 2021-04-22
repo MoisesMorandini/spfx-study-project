@@ -119,8 +119,6 @@ export class ViewListGeneric extends React.Component<IViewListGenericProps, IVie
 
     // Sort the items.
     items = this._copyAndSort(items, column.fieldName!, isSortedDescending);
-    console.log('--------------------------------------')
-    console.log(items);
 
     // Reset the items and columns to match the state.
     this.setState({
