@@ -3,7 +3,11 @@ import { sp } from '@pnp/sp'
 
 class EmployeeService implements IEmployeeService {
     public async InsertEmployee(employee: IEmployee): Promise<void> {
-        await sp.web.lists.getByTitle("Employee").items.add(employee);
+        try {
+            await sp.web.lists.getByTitle("Employee").items.add(employee);
+        } catch (error) {
+            throw new Error(error);
+        }
     }
 }
 
