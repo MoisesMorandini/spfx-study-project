@@ -7,14 +7,19 @@ import * as Adapter from 'enzyme-adapter-react-16';
 import { INewEmployeeProps } from '../components/INewEmployeeProps'
 import NewEmployee, { INewEmployeeState } from '../components/NewEmployee'
 import EmployeeServiceMock from '../../../services/employee/EmployeeServiceMock'
-
 import { PrimaryButton, TextField, DatePicker } from 'office-ui-fabric-react';
-import { IEmployee } from '../../../services/employee/IEmployeeService';
+import { PeoplePicker } from '@pnp/spfx-controls-react/lib/PeoplePicker';
+import { IPersonaProps } from '@pnp/spfx-controls-react/node_modules/office-ui-fabric-react/lib/components/Persona/Persona.types'
+
 configure({ adapter: new Adapter() });
 
-fdescribe('Testing NewEmployee component', () => {
+describe('Testing NewEmployee component', () => {
     let newEmployeeComponent: ReactWrapper<INewEmployeeProps, INewEmployeeState>
     let employeeServiceMock: EmployeeServiceMock = new EmployeeServiceMock();
+
+    beforeAll(() => {
+        jest.spyOn(console, 'error').mockImplementation(() => { });
+    })
 
     beforeEach(() => {
         newEmployeeComponent = mount(React.createElement(NewEmployee, {
@@ -42,12 +47,11 @@ fdescribe('Testing NewEmployee component', () => {
         expect(message.length).toEqual(1);
     });
 
-    test('Should not show a message when a TextField receives FocusIn, but when focus is out the TextField stay empty', () => {
+    test('Should not show a message when a TextField receives FocusIn, but when focus is out the TextField is not empty', () => {
         const firstName: string = 'LoremIpsum';
         const textField = newEmployeeComponent.find(TextField).find('input[name="firstName"]');
         textField.simulate('change', { target: { name: 'firstName', value: `${firstName}` } });
         textField.simulate('blur');
-
 
         const message = newEmployeeComponent.find(TextField).find('div[role="alert"]');
         expect(message.length).toEqual(0);
@@ -73,6 +77,19 @@ fdescribe('Testing NewEmployee component', () => {
         simulateSelectDayInCalendar(day);
 
         expect(newEmployeeComponent.state('birthdayDate').toISOString().slice(0, 10)).toEqual(dateSimulated.toISOString().slice(0, 10));
+    })
+
+    test('Should change userId state when select a person in PersonPicker ', () => {
+        const userMock: IPersonaProps[] =
+            [{
+                id: "2",
+                secondaryText: "AlexW@M365x704390.OnMicrosoft.com"
+            }]
+
+        const peoplePicker = newEmployeeComponent.find(PeoplePicker);
+        peoplePicker.simulate('change', userMock);
+
+        expect(newEmployeeComponent.state('userId')).toEqual("2")
     })
 
     test('Should call InsertEmployee() with the correct state values', () => {

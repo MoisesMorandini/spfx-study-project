@@ -2,7 +2,8 @@ import * as React from 'react';
 import styles from './NewEmployee.module.scss';
 import { INewEmployeeProps } from './INewEmployeeProps';
 import { Spinner, PrimaryButton, Stack, TextField, DatePicker, ITextFieldProps, SpinnerSize } from 'office-ui-fabric-react';
-// import { PeoplePicker, PrincipalType } from '@pnp/spfx-controls-react/lib/PeoplePicker';
+import { PeoplePicker, PrincipalType } from '@pnp/spfx-controls-react/lib/PeoplePicker';
+import { IPersonaProps } from '@pnp/spfx-controls-react/node_modules/office-ui-fabric-react/lib/components/Persona/Persona.types'
 import { IEmployeeService, IEmployee } from '../../../services/employee/IEmployeeService';
 
 export interface IUser {
@@ -63,9 +64,9 @@ export default class NewEmployee extends React.Component<INewEmployeeProps, INew
     this.setState({ ...this.partialState(fieldName, date) });
   }
 
-  // private handlePeoplePicker = (items: any): any => {
-  //   this.setState({ ...this.state, userId: items[0].id })
-  // }
+  private handlePeoplePicker = (items: IPersonaProps[]): void => {
+    this.setState({ ...this.state, userId: items[0].id })
+  }
 
   private handleSubmit = async (event) => {
     this.setState({ requestNewEmployee: true })
@@ -112,12 +113,15 @@ export default class NewEmployee extends React.Component<INewEmployeeProps, INew
                 onSelectDate={(e) => this.handleDate("birthdayDate", e)} isRequired allowTextInput={true} textField={birthdayDate} />
               <DatePicker disabled={this.state.requestNewEmployee} label="Admission Date" ariaLabel="Select a date" value={this.state.admissionDate} formatDate={this.formatDate}
                 onSelectDate={(e) => this.handleDate("admissionDate", e)} isRequired allowTextInput={true} textField={admissionDate} />
+
               <TextField disabled={this.state.requestNewEmployee} placeholder="Enter value here" name="unit" label={"Unit"} onChange={this.handleChange} />
               <TextField disabled={this.state.requestNewEmployee} placeholder="Enter value here" name="division" label={"Division"} onChange={this.handleChange} />
               <TextField disabled={this.state.requestNewEmployee} placeholder="Enter value here" name="team" label={"Team"} onChange={this.handleChange} />
 
-              {/* <PeoplePicker context={this.props.context as any} titleText="User" showtooltip={true} ensureUser={true}
-              onChange={this.handlePeoplePicker} showHiddenInUI={false} principalTypes={[PrincipalType.User]} /> */}
+              <PeoplePicker context={this.props.context as any} titleText="User" showtooltip={true} ensureUser={true}
+                onChange={this.handlePeoplePicker} showHiddenInUI={false} principalTypes={[PrincipalType.User]}
+                placeholder="Enter value here"
+              />
 
               <div className={styles.button}>
                 <PrimaryButton name="addEmployee" type="submit" disabled={this.state.requestNewEmployee} >Add</PrimaryButton>

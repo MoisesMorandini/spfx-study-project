@@ -60,7 +60,8 @@
     },
     "moduleNameMapper": {
       "\\.(css|less|scss|sass)$": "identity-obj-proxy",
-      "office-ui-fabric-react/lib/(.*)$": "office-ui-fabric-react/lib-commonjs/$1"
+      "office-ui-fabric-react/lib/(.*)$": "office-ui-fabric-react/lib-commonjs/$1",
+      "@pnp/spfx-controls-react/lib/PeoplePicker": "identity-obj-proxy"
     },
     "collectCoverage": true
   }
