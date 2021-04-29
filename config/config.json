@@ -17,12 +17,21 @@
           "manifest": "./src/webparts/newEmployee/NewEmployeeWebPart.manifest.json"
         }
       ]
+    },
+    "view-library-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/viewLibrary/ViewLibraryWebPart.js",
+          "manifest": "./src/webparts/viewLibrary/ViewLibraryWebPart.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
   "localizedResources": {
     "ViewListGenericWebPartStrings": "lib/webparts/viewListGeneric/loc/{locale}.js",
     "NewEmployeeWebPartStrings": "lib/webparts/newEmployee/loc/{locale}.js",
-    "ControlStrings": "node_modules/@pnp/spfx-controls-react/lib/loc/{locale}.js"
+    "ControlStrings": "node_modules/@pnp/spfx-controls-react/lib/loc/{locale}.js",
+    "ViewLibraryWebPartStrings": "lib/webparts/viewLibrary/loc/{locale}.js"
   }
 }

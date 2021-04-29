@@ -1,0 +1,38 @@
+@import '~office-ui-fabric-react/dist/sass/References.scss';
+
+.viewLibrary {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+
+  .loading{
+    justify-self: center;
+    margin: auto;
+  }
+
+  .container {
+    width: 170px;
+    margin: 0;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  .cardTitle {
+    display: flex;
+    flex-direction: row;
+    margin-top: 0px;
+    padding: 0px;
+
+    .title{
+      align-self: center;
+      padding-left: 0px;
+      padding-right: 0px;
+    }
+  }
+
+  .documentCardStatus {
+    width: 85%;
+    margin-top: 0px;
+    align-self: center;
+  } 
+}
