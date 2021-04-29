@@ -7,11 +7,18 @@ export interface IEmployee {
     Division?: string;
     Team?: string | number;
     UserId?: string;
+    User?: IUser
 }
 
+export interface IUser {
+    Title: string;
+    EMail?: string;
+}
 
 export interface IEmployeeService {
 
     InsertEmployee(employee: IEmployee): Promise<void>;
+
+    GetEmployeesBirthday(): Promise<IEmployee[]>;
 
 }
