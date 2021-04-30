@@ -1,9 +1,53 @@
 @import '~office-ui-fabric-react/dist/sass/References.scss';
 
 .viewBirthdays {
-  .container {
-    max-width: 700px;
-    margin: 0px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding-left: 2%;
+  
+  .loading{
+    justify-self: center;
+    margin: auto;
+  }
+  
+  .title{
+    font-size: 36px;
+    display: flex;
+    .titleMessage{
+      align-self: center;
+      font-family: 'Lucida Calligraphy', 'Lucida Handwriting', Geneva, Verdana, sans-serif;
+    }
+  }
+
+  .containerCards{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+  }
+
+  .card {
+    min-width: none;
+    width: 225px;
+    height: 80px;
+    margin: 0 2% 2% 0;
+    padding-top: 1.2em;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
   }
+
+  .persona{
+    margin-left: 2%;
+  }
+
+  .birthdayDate {
+    display: flex;
+    flex-direction: row;
+    span{
+      align-self: center;
+      font-size: 18px;
+      padding-left: 5%;
+      font-family: 'Lucida Calligraphy', 'Lucida Handwriting', Geneva, Verdana, sans-serif;
+    }
+    
+  } 
 }

@@ -5,7 +5,6 @@ class EmployeeService implements IEmployeeService {
     static _listName: string = "Employee";
 
     async GetEmployeesBirthday(): Promise<IEmployee[]> {
-        console.log('----------------------EmployeeService--------------');
         const today = new Date();
         const weekStart = this.getWeekStartDate(today);
         const weekFinish = this.getWeekFinishDate(today);
@@ -37,13 +36,6 @@ class EmployeeService implements IEmployeeService {
         weekFinish.setHours(0, 0, 0, 0);
         return weekFinish;
     }
-
-    private formatDate(date: Date): string {
-        const dateMonth = date.getMonth() > 9 ? date.getMonth() + 1 : `0${date.getMonth() + 1}`
-        const dateDay = date.getMonth() > 9 ? date.getMonth() + 1 : `0${date.getMonth() + 1}`
-        return `${date.getFullYear()}-${dateMonth}-${dateDay}`
-    }
-
 
     public async InsertEmployee(employee: IEmployee): Promise<void> {
         try {
