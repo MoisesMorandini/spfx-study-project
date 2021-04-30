@@ -12,9 +12,10 @@
   }
 
   .container {
-    width: 170px;
+    min-width: 145px;
+    width: 145px;
     margin: 0;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
+    
   }
 
   .cardTitle {
@@ -34,5 +35,6 @@
     width: 85%;
     margin-top: 0px;
     align-self: center;
+    font-size: 12px;
   } 
 }

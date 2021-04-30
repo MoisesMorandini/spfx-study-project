@@ -42,8 +42,8 @@ export default class ViewLibrary extends React.Component<IViewLibraryProps, IVie
     const { libraryList } = this.state;
 
     const styleIcon = {
-      icon: { color: '#0078d4', fontSize: 36, padding: 0, margin: 0 },
-      root: { width: 72, height: 72, padding: 0, margin: 0 }
+      icon: { color: '#0078d4', fontSize: 24, padding: 0, margin: 0 },
+      root: { width: 48, height: 48, padding: 0, margin: 0 }
     }
 
     return (
