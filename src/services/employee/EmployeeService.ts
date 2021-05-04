@@ -12,9 +12,8 @@ class EmployeeService implements IEmployeeService {
 
         const employeesOfMonth: IEmployee[] = await sp.web.lists.getByTitle(EmployeeService._listName).items
             .filter(`MonthBirthday eq ${weekStart.getMonth() + 1} or MonthBirthday eq ${weekFinish.getMonth() + 1}`)
-            .select("Title,LastName,BirthdayDate,AdmissionDate,User/Title,User/EMail").expand("User").get();
-        console.log('employeesOfMonth');
-        console.log(employeesOfMonth);
+            .select("Title,LastName,BirthdayDate,User/Title,User/EMail").expand("User").get();
+
         employeesOfMonth.forEach(employee => {
             const employeeDate = new Date(employee.BirthdayDate);
             employeeDate.setFullYear(today.getFullYear());
@@ -31,7 +30,7 @@ class EmployeeService implements IEmployeeService {
 
         const employeesOfMonth: IEmployee[] = await sp.web.lists.getByTitle(EmployeeService._listName).items
             .filter(`MonthAdmission eq ${weekStart.getMonth() + 1} or MonthAdmission eq ${weekFinish.getMonth() + 1}`)
-            .select("Title,LastName,BirthdayDate,AdmissionDate,User/Title,User/EMail").expand("User").get();
+            .select("Title,LastName,AdmissionDate,User/Title,User/EMail").expand("User").get();
 
         employeesOfMonth.forEach(employee => {
             const employeeDateOriginal = new Date(employee.AdmissionDate);

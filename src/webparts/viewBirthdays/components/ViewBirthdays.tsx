@@ -53,7 +53,7 @@ export default class ViewBirthdays extends React.Component<IViewBirthdaysProps, 
             isLoading ? <Spinner size={SpinnerSize.large} className={styles.loading} />
               : employeesBirthday.length > 0 && employeesBirthday.map(employee => {
                 return (
-                  <EmployeeCard name={`${employee.Title} ${employee.LastName}`} date={employee.BirthdayDate}
+                  <EmployeeCard key={employee.Title} name={`${employee.Title} ${employee.LastName}`} date={employee.BirthdayDate}
                     email={employee.User && employee.User.EMail} />
                 )
               })

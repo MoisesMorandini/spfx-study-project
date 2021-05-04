@@ -11,20 +11,19 @@
     margin: auto;
   }
 
-  .container {
+  .containerLibrary {
     min-width: 145px;
     width: 145px;
     margin: 0;
-    
   }
 
-  .cardTitle {
+  .libraryTitleContainer {
     display: flex;
     flex-direction: row;
     margin-top: 0px;
     padding: 0px;
 
-    .title{
+    .libraryTitle{
       align-self: center;
       padding-left: 0px;
       padding-right: 0px;
@@ -33,7 +32,7 @@
 
   .documentCardStatus {
     width: 85%;
-    margin-top: 0px;
+    margin: 0px auto 8px auto;
     align-self: center;
     font-size: 12px;
   } 
