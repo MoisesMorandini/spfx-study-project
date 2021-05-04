@@ -1,0 +1,46 @@
+@import '~office-ui-fabric-react/dist/sass/References.scss';
+
+.viewCompanyAnniversary {
+  padding-left: 2%;
+
+  .container {
+    max-width: 700px;
+    margin: 0px auto;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  .loading{
+    justify-self: center;
+    margin: auto;
+  }
+  
+  .companyAnniversaryTitle{
+    font-size: 24px;
+    display: flex;
+
+    .companyAnniversaryMessage{
+      align-self: center;
+      font-family: 'Lucida Calligraphy', 'Lucida Handwriting', Geneva, Verdana, sans-serif;
+    }
+  }
+
+  .companyAnniversaryCards{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+  }
+
+  .date {
+    display: flex;
+    flex-direction: column;
+    font-size: 12px;
+    font-family: 'Lucida Calligraphy', 'Lucida Handwriting', Geneva, Verdana, sans-serif;
+    .star{
+      display: flex;
+      flex-direction: row;      
+      span{
+        align-self: center;
+      }
+    }
+  } 
+}

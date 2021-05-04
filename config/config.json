@@ -33,6 +33,14 @@
           "manifest": "./src/webparts/viewBirthdays/ViewBirthdaysWebPart.manifest.json"
         }
       ]
+    },
+    "view-company-anniversary-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/viewCompanyAnniversary/ViewCompanyAnniversaryWebPart.js",
+          "manifest": "./src/webparts/viewCompanyAnniversary/ViewCompanyAnniversaryWebPart.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
@@ -41,6 +49,7 @@
     "NewEmployeeWebPartStrings": "lib/webparts/newEmployee/loc/{locale}.js",
     "ControlStrings": "node_modules/@pnp/spfx-controls-react/lib/loc/{locale}.js",
     "ViewLibraryWebPartStrings": "lib/webparts/viewLibrary/loc/{locale}.js",
-    "ViewBirthdaysWebPartStrings": "lib/webparts/viewBirthdays/loc/{locale}.js"
+    "ViewBirthdaysWebPartStrings": "lib/webparts/viewBirthdays/loc/{locale}.js",
+    "ViewCompanyAnniversaryWebPartStrings": "lib/webparts/viewCompanyAnniversary/loc/{locale}.js"
   }
 }

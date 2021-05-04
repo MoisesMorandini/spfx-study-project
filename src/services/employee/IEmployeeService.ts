@@ -21,4 +21,5 @@ export interface IEmployeeService {
 
     GetEmployeesBirthday(): Promise<IEmployee[]>;
 
+    GetEmployeesCompanyAnniversary(): Promise<IEmployee[]>;
 }
