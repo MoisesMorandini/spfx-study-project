@@ -2,9 +2,7 @@ import * as React from 'react';
 import styles from './ViewBirthdays.module.scss';
 import { IViewBirthdaysProps } from './IViewBirthdaysProps';
 import { IEmployee, IEmployeeService } from '../../../services/employee/IEmployeeService';
-import {
-  Stack, IconButton, IButtonStyles, Spinner, SpinnerSize
-} from 'office-ui-fabric-react';
+import { Stack, IconButton, IButtonStyles, Spinner, SpinnerSize } from 'office-ui-fabric-react';
 import EmployeeCard from '../../../components/EmployeeCard/EmployeeCard';
 
 export interface IViewBirthdaysState {
@@ -45,17 +43,19 @@ export default class ViewBirthdays extends React.Component<IViewBirthdaysProps, 
 
     return (
       <Stack className={styles.viewBirthdays}>
-        <div className={styles.title}>
-          <IconButton styles={birthdayCakeStyleIcon} iconProps={{ iconName: 'BirthdayCake' }} title="BirthdayCake" ariaLabel="BirthdayCake" />
-          <span className={styles.titleMessage}>Week Birthdays</span>
+        <div className={styles.titleBirthdays}>
+          <IconButton styles={birthdayCakeStyleIcon} iconProps={{ iconName: 'BirthdayCake' }}
+            title="BirthdayCake" ariaLabel="BirthdayCake" />
+          <span className={styles.birthdayMessage}>Birthdays of this Week</span>
         </div>
-
-        <div className={styles.containerCards}>
+        <div className={styles.birthdayCards}>
           {
-            isLoading ? <Spinner size={SpinnerSize.large} className={styles.loading} /> :
-              employeesBirthday.length > 0 && employeesBirthday.map(employee => {
-                return <EmployeeCard name={`${employee.Title} ${employee.LastName}`} date={employee.BirthdayDate}
-                  email={employee.User && employee.User.EMail} />
+            isLoading ? <Spinner size={SpinnerSize.large} className={styles.loading} />
+              : employeesBirthday.length > 0 && employeesBirthday.map(employee => {
+                return (
+                  <EmployeeCard name={`${employee.Title} ${employee.LastName}`} date={employee.BirthdayDate}
+                    email={employee.User && employee.User.EMail} />
+                )
               })
           }
         </div>
